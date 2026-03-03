@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAA BOOSTIFY</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --accent1:#6C63FF;
+  --accent2:#00F5D4;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top left,#0f2027,#203a43,#2c5364);
+  color:#fff;
+  transition:0.4s ease;
+}
+
+body.light{
+  background:linear-gradient(135deg,#eef2ff,#ffffff,#e0f7fa);
+  color:#111;
+}
+
+.toggle{
+  position:absolute;
+  top:20px;
+  right:20px;
+  border:none;
+  padding:8px 14px;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:600;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;
+}
+
+.container{
+  width:95%;
+  max-width:420px;
+  padding:40px 25px;
+  border-radius:25px;
+  backdrop-filter:blur(25px);
+  background:rgba(255,255,255,0.07);
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
+  text-align:center;
+  animation:fadeUp 1s ease;
+}
+
+body.light .container{
+  background:rgba(255,255,255,0.6);
+}
+
+.profile{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid transparent;
+  background:linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(90deg,var(--accent1),var(--accent2)) border-box;
+  margin-bottom:15px;
+  animation:float 4s ease-in-out infinite;
+}
+
+h1{
+  font-weight:800;
+  font-size:22px;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.bio{
+  font-size:14px;
+  opacity:0.8;
+  margin:15px 0 30px;
+}
+
+.link{
+  display:block;
+  margin:12px 0;
+  padding:14px;
+  border-radius:15px;
+  text-decoration:none;
+  font-weight:600;
+  color:inherit;
+  backdrop-filter:blur(15px);
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  transition:0.4s;
+  opacity:0;
+  transform:translateY(20px);
+}
+
+.link.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.link:hover{
+  transform:translateY(-5px) scale(1.05);
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:#fff;
+}
+
+footer{
+  margin-top:25px;
+  font-size:12px;
+  opacity:0.6;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-12px);}
+  100%{transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<button class="toggle" id="themeToggle">🌙</button>
+
+<div class="container">
+  <img src="https://via.placeholder.com/150" class="profile">
+  <h1>STAA BOOSTIFY</h1>
+  <p class="bio">Digital Services • Social Media Growth • Web Development</p>
+
+  <a href="#" class="link">📸 Instagram</a>
+  <a href="#" class="link">🎵 TikTok</a>
+  <a href="#" class="link">💬 WhatsApp</a>
+  <a href="#" class="link">🌐 Portfolio</a>
+
+  <footer>© 2026 STAA BOOSTIFY</footer>
+</div>
+
+<script>
+const body=document.body;
+const toggle=document.getElementById("themeToggle");
+const links=document.querySelectorAll(".link");
+
+// Load theme
+if(localStorage.getItem("theme")){
+  body.classList.toggle("light",localStorage.getItem("theme")==="light");
+}else if(window.matchMedia("(prefers-color-scheme: light)").matches){
+  body.classList.add("light");
+}
+
+function updateIcon(){
+  toggle.textContent=body.classList.contains("light")?"🌙":"☀️";
+}
+updateIcon();
+
+toggle.addEventListener("click",()=>{
+  body.classList.toggle("light");
+  localStorage.setItem("theme",body.classList.contains("light")?"light":"dark");
+  updateIcon();
+});
+
+// Smooth reveal link animation
+links.forEach((link,i)=>{
+  setTimeout(()=>{
+    link.classList.add("show");
+  },300+(i*150));
+});
+</script>
+
+</body>
+</html>
