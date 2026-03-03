@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Foto - STAA DEV</title>
+  <style>
+    body{
+      font-family:Arial;
+      background:#0f1117;
+      color:white;
+      text-align:center;
+      padding:50px;
+    }
+    input,button{
+      margin:10px;
+      padding:10px;
+      border-radius:8px;
+      border:none;
+    }
+    button{
+      background:#8b5cf6;
+      color:white;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Upload Foto ke GitHub</h2>
+
+<input type="file" id="fileInput" accept="image/*">
+<br>
+<button onclick="uploadFile()">Upload</button>
+
+<p id="status"></p>
+
+<script>
+async function uploadFile(){
+  const file = document.getElementById("fileInput").files[0];
+  if(!file){
+    alert("Pilih file dulu!");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function(){
+    const base64 = reader.result.split(",")[1];
+
+    const response = await fetch("https://api.github.com/repos/staa-dev/staaportofolio/contents/uploads/"+file.name, {
+      method: "PUT",
+      headers: {
+        "Authorization": "token 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",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Upload foto baru",
+        content: base64
+      })
+    });
+
+    if(response.ok){
+      document.getElementById("status").innerText = "Upload berhasil 🔥";
+    }else{
+      document.getElementById("status").innerText = "Upload gagal ❌";
+    }
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
