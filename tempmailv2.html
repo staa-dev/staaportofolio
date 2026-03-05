@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>STAA MAIL</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#0f172a;
+color:white;
+margin:0;
+}
+
+header{
+background:#020617;
+padding:18px 30px;
+display:flex;
+align-items:center;
+border-bottom:1px solid #1e293b;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
+
+.generator{
+background:#020617;
+padding:25px;
+border-radius:14px;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(0,0,0,.4);
+}
+
+.row{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+input{
+padding:10px;
+border-radius:8px;
+border:none;
+}
+
+.domain{
+color:#94a3b8;
+}
+
+button{
+padding:9px 14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#3b82f6;
+color:white;
+}
+
+.email-box{
+margin-top:15px;
+background:#0f172a;
+padding:14px;
+border-radius:8px;
+border:1px solid #1e293b;
+font-size:15px;
+word-break:break-all;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#020617;
+border-radius:12px;
+overflow:hidden;
+table-layout:fixed;
+}
+
+th{
+padding:10px;
+font-size:13px;
+color:#94a3b8;
+border-bottom:1px solid #1e293b;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #1e293b;
+font-size:13px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.from{width:150px;}
+.date{width:120px;}
+
+tr:hover{
+background:#1e293b;
+cursor:pointer;
+}
+
+.viewer{
+margin-top:20px;
+background:#020617;
+padding:20px;
+border-radius:12px;
+}
+.info-container{
+margin-top:20px;
+display:flex;
+justify-content:center;
+}
+
+.info-card{
+max-width:700px;
+width:100%;
+background:#020617;
+border:1px solid #1e293b;
+padding:18px;
+border-radius:12px;
+box-shadow:0 0 20px rgba(0,0,0,.35);
+}
+
+.info-card h3{
+margin-top:0;
+font-size:16px;
+color:#3b82f6;
+}
+
+.info-card p{
+font-size:14px;
+color:#cbd5f5;
+line-height:1.6;
+margin:8px 0;
+}
+.footer{
+margin-top:40px;
+background:#020617;
+border-top:1px solid #1e293b;
+padding:25px 10px;
+text-align:center;
+}
+
+.footer-content h3{
+margin:0;
+font-size:16px;
+color:#3b82f6;
+letter-spacing:1px;
+}
+
+.footer-content p{
+margin-top:6px;
+font-size:13px;
+color:#94a3b8;
+}
+.theme-toggle{
+background:none;
+border:none;
+font-size:20px;
+cursor:pointer;
+color:white;
+}
+
+body.light{
+background:#f1f5f9;
+color:#0f172a;
+}
+
+body.light header{
+background:white;
+border-bottom:1px solid #e2e8f0;
+}
+
+body.light .generator,
+body.light table,
+body.light .viewer{
+background:white;
+}
+
+body.light .email-box{
+background:#f8fafc;
+}
+
+body.light tr:hover{
+background:#f1f5f9;
+}
+.otp-box{
+margin-top:15px;
+background:#020617;
+border:1px solid #3b82f6;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+.otp-code{
+font-size:26px;
+font-weight:bold;
+letter-spacing:3px;
+color:#3b82f6;
+margin:10px 0;
+}
+
+.copy-otp{
+background:#3b82f6;
+border:none;
+padding:8px 15px;
+border-radius:8px;
+cursor:pointer;
+color:white;
+font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">📧 STAA MAIL</div>
+
+<button id="themeToggle" class="theme-toggle">
+🌙
+</button>
+</header>
+
+<div class="container">
+
+<div class="generator">
+
+<h3>Temporary Email</h3>
+
+<div class="row">
+
+<input id="username" placeholder="username">
+
+<span class="domain">@dollicons.com</span>
+
+<button onclick="createEmail()">Generate</button>
+<button onclick="copyEmail()">Copy</button>
+<button onclick="loadInbox()">Refresh</button>
+
+</div>
+
+<div class="email-box" id="emailBox">
+Belum ada email dibuat
+</div>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th class="from">FROM</th>
+<th>SUBJECT</th>
+<th class="date">DATE</th>
+</tr>
+</thead>
+
+<tbody id="inbox"></tbody>
+
+</table>
+
+
+<div class="viewer" id="viewer">
+
+<h3>Email Viewer</h3>
+<p>Klik email untuk membaca pesan</p>
+
+</div>
+<div class="info-container">
+
+<div class="info-card">
+
+<h3>📢 Informasi Penting</h3>
+
+<p>
+Jika kamu meminta kode OTP atau verifikasi menggunakan email sementara ini,
+silakan tekan tombol <b>Refresh</b> untuk memuat pesan terbaru.
+</p>
+
+<p>
+Beberapa layanan membutuhkan waktu sekitar <b>5-10 detik</b> sebelum email masuk ke inbox.
+</p>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const toggle=document.getElementById("themeToggle")
+
+function setTheme(mode){
+
+if(mode==="light"){
+document.body.classList.add("light")
+toggle.innerHTML="☀️"
+}else{
+document.body.classList.remove("light")
+toggle.innerHTML="🌙"
+}
+
+localStorage.setItem("theme",mode)
+
+}
+
+toggle.onclick=()=>{
+
+let mode=document.body.classList.contains("light")?"dark":"light"
+
+setTheme(mode)
+
+}
+
+let saved=localStorage.getItem("theme")||"dark"
+
+setTheme(saved)
+
+let token=""
+let email=""
+let password="12345678"
+const domain="dollicons.com"
+
+async function createEmail(){
+
+try{
+
+let username=document.getElementById("username").value
+
+if(username==""){
+username=Math.random().toString(36).substring(2,10)
+}
+
+email=username+"@"+domain
+
+await fetch("https://api.mail.tm/accounts",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+address:email,
+password:password
+})
+})
+
+let res=await fetch("https://api.mail.tm/token",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+address:email,
+password:password
+})
+})
+
+let data=await res.json()
+
+if(!data.token){
+alert("Gagal membuat email")
+return
+}
+
+token=data.token
+
+document.getElementById("emailBox").innerText=email
+
+loadInbox()
+
+}catch(e){
+
+alert("Error membuat email")
+
+}
+
+}
+
+function copyEmail(){
+
+if(!email) return
+
+navigator.clipboard.writeText(email)
+
+alert("Email disalin")
+
+}
+
+async function loadInbox(){
+
+if(!token) return
+
+try{
+
+let res=await fetch("https://api.mail.tm/messages",{
+headers:{
+Authorization:"Bearer "+token
+}
+})
+
+let data=await res.json()
+
+let html=""
+
+data["hydra:member"].forEach(mail=>{
+
+html+=`
+
+<tr onclick="readMail('${mail.id}')">
+
+<td class="from">${mail.from.address}</td>
+
+<td>${mail.subject}</td>
+
+<td class="date">${new Date(mail.createdAt).toLocaleTimeString()}</td>
+
+</tr>
+
+`
+
+})
+
+document.getElementById("inbox").innerHTML=
+html || "<tr><td colspan=3>Belum ada email</td></tr>"
+
+}catch(e){
+
+console.log("Inbox error")
+
+}
+
+}
+
+async function readMail(id){
+
+let res=await fetch("https://api.mail.tm/messages/"+id,{
+headers:{Authorization:"Bearer "+token}
+})
+
+let data=await res.json()
+
+let text=data.text || ""
+
+let otpMatch=text.match(/\b\d{4,8}\b/)
+
+let otpHTML=""
+
+if(otpMatch){
+
+let otp=otpMatch[0]
+
+otpHTML=`
+
+<div class="otp-box">
+
+<div>Kode OTP Terdeteksi</div>
+
+<div class="otp-code">${otp}</div>
+
+<button class="copy-otp" onclick="copyOTP('${otp}')">
+Copy OTP
+</button>
+
+</div>
+
+`
+
+}
+
+document.getElementById("viewer").innerHTML=`
+
+<h3>${data.subject}</h3>
+
+<p><b>Dari:</b> ${data.from.address}</p>
+
+${otpHTML}
+
+<hr>
+
+<p>${text}</p>
+
+`
+
+}
+
+setInterval(loadInbox,5000)
+function copyOTP(code){
+
+navigator.clipboard.writeText(code)
+
+alert("OTP berhasil disalin")
+
+}
+</script>
+<footer class="footer">
+
+<div class="footer-content">
+
+<h3>STAA DEVELOPER</h3>
+
+<p>© 2026 All Rights Reserved</p>
+
+</div>
+
+</footer>
+</body>
+</html>
