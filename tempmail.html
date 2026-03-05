@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STAA MAIL - Premium Temp Mail</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+transition:.3s;
+}
+
+.light{
+background:#f1f5f9;
+color:#111;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+h1{
+font-size:26px;
+}
+
+button{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#3b82f6;
+color:white;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.email-box{
+background:#1e293b;
+padding:14px;
+border-radius:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.light .email-box{
+background:white;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.inbox{
+background:#1e293b;
+border-radius:10px;
+padding:10px;
+}
+
+.light .inbox{
+background:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #334155;
+font-size:14px;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+.light tr:hover{
+background:#e2e8f0;
+}
+
+.mail-content{
+margin-top:20px;
+background:#1e293b;
+padding:15px;
+border-radius:10px;
+display:none;
+}
+
+.light .mail-content{
+background:white;
+}
+
+.otp{
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+color:#22c55e;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+<h1>📧 STAA MAIL</h1>
+<button onclick="toggleTheme()">🌙 Toggle Mode</button>
+</header>
+
+<div class="email-box">
+<span id="email"></span>
+<button onclick="copyEmail()">Copy</button>
+</div>
+
+<div class="actions">
+<button onclick="generateEmail()">Email Baru</button>
+<button onclick="loadInbox()">Refresh</button>
+<select id="domainSelect">
+<option>1secmail.com</option>
+<option>1secmail.org</option>
+<option>1secmail.net</option>
+</select>
+</div>
+
+<div class="inbox">
+
+<table>
+
+<thead>
+<tr>
+<th>From</th>
+<th>Subject</th>
+<th>Buka</th>
+<th>Delete</th>
+</tr>
+</thead>
+
+<tbody id="mailTable"></tbody>
+
+</table>
+
+</div>
+
+<div id="mailContent" class="mail-content"></div>
+
+</div>
+
+<script>
+
+let login=""
+let domain="1secmail.com"
+let lastCount=0
+
+function randomString(){
+return Math.random().toString(36).substring(2,10)
+}
+
+function generateEmail(){
+
+login=randomString()
+
+domain=document.getElementById("domainSelect").value
+
+let email=login+"@"+domain
+
+document.getElementById("email").innerText=email
+
+loadInbox()
+
+}
+
+function copyEmail(){
+
+let email=document.getElementById("email").innerText
+
+navigator.clipboard.writeText(email)
+
+alert("Email disalin!")
+
+}
+
+function toggleTheme(){
+
+document.body.classList.toggle("light")
+
+}
+
+async function loadInbox(){
+
+domain=document.getElementById("domainSelect").value
+
+let res=await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`)
+
+let data=await res.json()
+
+let html=""
+
+if(data.length>lastCount){
+
+alert("📩 Email baru masuk!")
+
+}
+
+lastCount=data.length
+
+data.forEach(mail=>{
+
+html+=`
+
+<tr>
+
+<td>${mail.from}</td>
+
+<td>${mail.subject}</td>
+
+<td><button onclick="readMail(${mail.id})">Buka</button></td>
+
+<td><button onclick="deleteMail(${mail.id})">Delete</button></td>
+
+</tr>
+
+`
+
+})
+
+document.getElementById("mailTable").innerHTML=html
+
+}
+
+async function readMail(id){
+
+let res=await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`)
+
+let data=await res.json()
+
+let body=data.body
+
+let otp=body.match(/\d{4,8}/)
+
+let html=`<h3>${data.subject}</h3>
+<p><b>Dari:</b> ${data.from}</p>
+<hr>
+<div>${body}</div>`
+
+if(otp){
+
+html+=`<div class="otp">OTP: ${otp[0]}</div>
+<button onclick="copyOTP('${otp[0]}')">Copy OTP</button>`
+
+}
+
+let content=document.getElementById("mailContent")
+
+content.innerHTML=html
+content.style.display="block"
+
+}
+
+function copyOTP(code){
+
+navigator.clipboard.writeText(code)
+
+alert("OTP disalin!")
+
+}
+
+function deleteMail(id){
+
+alert("Email dihapus dari daftar")
+
+loadInbox()
+
+}
+
+setInterval(loadInbox,5000)
+
+generateEmail()
+
+</script>
+
+</body>
+</html>
