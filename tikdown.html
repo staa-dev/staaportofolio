@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STAA TikTok Downloader PRO</title>
+
+<meta name="description" content="Download video TikTok tanpa watermark HD gratis">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
+color:white;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:0.3s;
+}
+
+body.light{
+background:#f4f4f4;
+color:black;
+}
+
+.container{
+width:420px;
+padding:30px;
+border-radius:16px;
+background:#1b1b1b;
+box-shadow:0 15px 40px rgba(0,0,0,0.5);
+text-align:center;
+}
+
+body.light .container{
+background:white;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-weight:600;
+}
+
+.toggle{
+cursor:pointer;
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin-top:10px;
+outline:none;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+.download{
+background:#ff0050;
+color:white;
+}
+
+.reset{
+background:#444;
+color:white;
+}
+
+.thumbnail{
+width:100%;
+border-radius:10px;
+margin-top:10px;
+}
+
+.linkbtn{
+display:block;
+margin-top:8px;
+padding:10px;
+border-radius:8px;
+background:#00c853;
+color:white;
+text-decoration:none;
+}
+
+.progress{
+width:100%;
+background:#333;
+border-radius:20px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:10px;
+width:0%;
+background:#ff0050;
+transition:0.3s;
+}
+
+.loading-text{
+margin-top:6px;
+font-size:12px;
+opacity:0.7;
+}
+
+footer{
+margin-top:15px;
+font-size:12px;
+opacity:0.6;
+}
+.info-box{
+margin-top:20px;
+padding:15px;
+background:#222;
+border-radius:10px;
+font-size:13px;
+line-height:1.6;
+text-align:left;
+opacity:0.9;
+}
+
+body.light .info-box{
+background:#f0f0f0;
+}
+
+.info-box h3{
+margin-bottom:8px;
+font-size:15px;
+}
+body{
+transition:background 0.4s,color 0.4s;
+}
+
+.container{
+transition:background 0.4s;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topbar">
+<div>STAA Downloader</div>
+<div class="toggle" onclick="toggleMode()" id="modeIcon">🌙</div>
+</div>
+
+<h2>TikTok Downloader PRO</h2>
+
+<input id="url" placeholder="Tempel link TikTok">
+
+<button class="download" onclick="download()">Download</button>
+
+<button class="reset" onclick="reset()">Reset</button>
+
+<div class="progress">
+<div id="bar" class="progress-bar"></div>
+</div>
+
+<div id="status" class="loading-text"></div>
+
+<div id="result"></div>
+<div class="info-box">
+
+<h3>Cara Menggunakan TikTok Downloader</h3>
+
+<p>
+1. Buka aplikasi TikTok dan pilih video yang ingin di download.
+</p>
+
+<p>
+2. Tekan tombol <b>Share</b> lalu pilih <b>Copy Link</b>.
+</p>
+
+<p>
+3. Tempel link video TikTok pada kolom yang tersedia di atas.
+</p>
+
+<p>
+4. Tekan tombol <b>Download</b> dan tunggu hingga video diproses.
+</p>
+
+<p>
+5. Pilih kualitas video yang diinginkan seperti <b>HD</b> atau <b>SD</b>, atau download <b>MP3 audio</b>.
+</p>
+
+<p>
+Tools ini juga mendukung download <b>slideshow foto TikTok</b> tanpa watermark.
+</p>
+
+</div>
+<footer>@2026 STAA Developer</footer>
+
+</div>
+
+<script>
+
+const icon = document.getElementById("modeIcon")
+
+function toggleMode(){
+
+document.body.classList.toggle("light")
+
+if(document.body.classList.contains("light")){
+icon.innerHTML="☀"
+localStorage.setItem("theme","light")
+}else{
+icon.innerHTML="🌙"
+localStorage.setItem("theme","dark")
+}
+
+}
+
+function loadTheme(){
+
+let theme = localStorage.getItem("theme")
+
+if(theme==="light"){
+document.body.classList.add("light")
+icon.innerHTML="☀"
+}else{
+icon.innerHTML="🌙"
+}
+
+}
+
+function reset(){
+url.value=""
+result.innerHTML=""
+bar.style.width="0%"
+status.innerHTML=""
+}
+
+async function autoPaste(){
+try{
+let text=await navigator.clipboard.readText()
+if(text.includes("tiktok.com")){
+url.value=text
+}
+}catch{}
+}
+
+autoPaste()
+
+function setProgress(p,text){
+document.getElementById("bar").style.width=p+"%"
+document.getElementById("status").innerText=text
+}
+
+async function fetchAPI(link){
+
+let apis=[
+`https://www.tikwm.com/api/?url=${encodeURIComponent(link)}`,
+`https://tikwm.com/api/?url=${encodeURIComponent(link)}`
+]
+
+for(let api of apis){
+
+try{
+
+let res=await fetch(api)
+let json=await res.json()
+
+if(json.data){
+return json.data
+}
+
+}catch{}
+
+}
+
+throw "API error"
+
+}
+
+async function download(){
+
+let link=url.value
+let result=document.getElementById("result")
+
+if(link==""){
+alert("Masukkan link TikTok")
+return
+}
+
+result.innerHTML=""
+
+try{
+
+setProgress(20,"Menghubungi server...")
+
+let data=await fetchAPI(link)
+
+setProgress(60,"Memproses video...")
+
+let hd=data.hdplay || data.play
+let sd=data.play
+let music=data.music
+
+let images=""
+
+if(data.images){
+
+data.images.forEach(img=>{
+images+=`<a class="linkbtn" href="${img}" download>Download Foto</a>`
+})
+
+}
+
+setProgress(100,"Selesai")
+
+result.innerHTML=`
+
+<h3>${data.title || "Video TikTok"}</h3>
+
+Creator: ${data.author.nickname}
+
+<img class="thumbnail" src="${data.cover}">
+
+<a class="linkbtn" href="${hd}" download>
+🎬 Download HD
+</a>
+
+<a class="linkbtn" href="${sd}" download>
+📱 Download SD
+</a>
+
+<a class="linkbtn" href="${music}" download>
+🎵 Download MP3
+</a>
+
+${images}
+
+`
+
+}catch{
+
+setProgress(0,"❌ API sedang error, coba lagi")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
