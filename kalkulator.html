@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- META VERIFIKASI ADSENSE -->
+    <meta name="e7d639ba6ac3d7aba592fee5d1a439f038c309ac" content="e7d639ba6ac3d7aba592fee5d1a439f038c309ac" />
+    
+    <title>Kalkulator Pertamina 3D | STAA DEV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Poppins', system-ui, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 30% 30%, #0a2a1f, #081014 90%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* container utama - premium, clean tanpa 3d */
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: #0d1219; /* deep blue-black */
+            border-radius: 48px;
+            padding: 28px;
+            box-shadow: 0 30px 60px -15px #000000c0, 0 0 0 1px rgba(0, 200, 150, 0.25) inset;
+            border-bottom: 3px solid #00a85a;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f0fcf8, #90e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 5px #00808060, 0 0 15px #00a86b40;
+            letter-spacing: -0.5px;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #90b8b0;
+            font-weight: 400;
+            font-size: 0.9rem;
+            border-bottom: 2px solid #007755;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* info desimal dengan sentuhan hijau */
+        .info-desimal {
+            background: #0e1a1f;
+            border: 1px solid #009f7a;
+            border-radius: 40px;
+            padding: 16px 22px;
+            margin-bottom: 30px;
+            color: #c0f0e0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 4px 12px #00000060, inset 0 1px 4px #60ffb040;
+        }
+
+        .info-desimal .icon {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 6px #0af);
+        }
+
+        .info-desimal strong {
+            color: #70ffc0;
+            font-weight: 600;
+        }
+
+        /* ===== EFEK 3D HANYA UNTUK KOLOM ===== */
+        .section {
+            background: #101b24; /* dark blue-green base */
+            border: 1px solid #006b54;
+            border-radius: 36px;
+            padding: 22px;
+            margin-bottom: 30px;
+            /* 3D effect: tebal + bayangan */
+            box-shadow: 
+                0 15px 0 #03231c,
+                0 20px 30px -5px #000000f0,
+                inset 0 1px 6px #60ffc080;
+            transform: translateY(0) perspective(800px) rotateX(0.8deg);
+            transition: all 0.15s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px) perspective(800px) rotateX(0.5deg);
+            border-color: #20c0a0;
+            box-shadow: 
+                0 18px 0 #054a3a,
+                0 28px 40px -5px #001010,
+                inset 0 1px 12px #a0ffe0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid #008f6b;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section-header .emoji {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 8px #0af) drop-shadow(0 4px 2px #022b20);
+        }
+
+        .section-header .title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e8fffe, #a0f0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 3px black;
+        }
+
+        /* input group - clean, hanya sedikit depth */
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            flex: 1 1 160px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #90d0c0;
+            font-weight: 500;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #0b1a20;
+            border: 2px solid #005a48;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e0fff0;
+            box-shadow: inset 0 4px 8px #000000, 0 2px 0 #004e3a;
+            transition: all 0.15s ease;
+            outline: none;
+            text-align: right;
+        }
+
+        .input-group input:focus {
+            border-color: #00d4aa;
+            box-shadow: inset 0 4px 8px black, 0 0 0 3px #00a57c50, 0 2px 0 #006b50;
+            background: #0f2930;
+        }
+
+        .input-group input[readonly] {
+            background: #1a2f38;
+            border-color: #007c6f;
+            color: #c0fff0;
+            font-weight: 600;
+            box-shadow: inset 0 3px 6px black, 0 2px 0 #005540;
+        }
+
+        .operator {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #70ffd0;
+            min-width: 40px;
+            text-align: center;
+            text-shadow: 0 4px 0 #005a45, 0 0 16px #0ff;
+        }
+
+        /* tombol dengan sentuhan 3d */
+        .btn-hitung {
+            background: #0f2a2a;
+            border: none;
+            border-radius: 60px;
+            padding: 15px 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: #f0ffff;
+            border: 1px solid #00997c;
+            box-shadow: 0 8px 0 #024234, 0 8px 20px black;
+            cursor: pointer;
+            transition: 0.08s linear;
+            margin: 10px 0;
+            width: 100%;
+            text-transform: uppercase;
+        }
+
+        .btn-hitung.small {
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+
+        .btn-hitung:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #024234, 0 10px 20px black;
+        }
+
+        .btn-hitung:hover {
+            background: #164a44;
+            border-color: #20ffd0;
+            box-shadow: 0 8px 0 #036a50, 0 12px 28px #00c8a070;
+        }
+
+        /* result card 3d (kolom juga) */
+        .result-card {
+            background: #0b1e24;
+            border-radius: 28px;
+            padding: 20px;
+            margin-top: 18px;
+            border: 1px solid #008f75;
+            box-shadow: inset 0 -3px 0 #015a48, 0 10px 18px #000000e0, 0 0 0 2px #002c22 inset;
+            transform: perspective(600px) rotateX(0.6deg);
+        }
+
+        .result-label {
+            color: #90e6d0;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #f0fff8;
+            text-shadow: 0 0 20px #00e6c0, 2px 4px 0 #003528;
+            word-break: break-word;
+        }
+
+        .result-detail {
+            color: #b0e6da;
+            border-top: 1px dashed #00997c;
+            margin-top: 8px;
+            padding-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* link arrow dengan warna biru-hijau */
+        .link-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #80ffdd;
+            margin: 5px 0 15px;
+            text-shadow: 0 3px 0 #00443a, 0 0 12px #0af;
+        }
+
+        .link-arrow .arrow {
+            font-size: 2rem;
+            filter: drop-shadow(0 5px 0 #024a3a);
+        }
+
+        /* TOTAL SECTION 3D - DIPERKECIL UKURAN FONTNYA */
+        .total-section {
+            background: #0b1f24;
+            border: 2px solid #008f72;
+            border-radius: 48px;
+            padding: 24px;
+            margin: 30px 0 20px;
+            box-shadow: 
+                0 20px 0 #024236,
+                0 30px 40px -5px black,
+                inset 0 -3px 12px #30ffc080;
+            transform: perspective(1000px) rotateX(1deg);
+        }
+
+        .total-header {
+            display: flex;
+            gap: 12px;
+            border-bottom: 3px solid #008f72;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            color: #d0fff0;
+            font-weight: 700;
+        }
+
+        .total-header .emoji {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 12px #2af) drop-shadow(0 4px 2px #003020);
+        }
+
+        .total-content {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .total-row {
+            background: #07222b;
+            border-radius: 60px;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #009077;
+            box-shadow: 0 7px 0 #024e40, 0 10px 15px black;
+        }
+
+        .total-label {
+            color: #b0f0e0;
+            font-weight: 500;
+        }
+
+        .total-value {
+            background: #0b2d32;
+            padding: 8px 25px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #e0fffc;
+            border: 1px solid #009977;
+            box-shadow: inset 0 2px 6px #60ffc0, 0 5px 0 #035a48;
+            /* diperkecil fontnya */
+            font-size: 0.95rem;
+        }
+
+        .total-kali {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #80ffd0;
+            text-shadow: 0 5px 0 #004d3a, 0 0 20px #0ff;
+        }
+
+        .total-result {
+            background: #0b2930;
+            border-radius: 60px;
+            padding: 18px 25px; /* padding dikurangi */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #008f72;
+            box-shadow: 0 12px 0 #025546, 0 20px 30px black;
+            /* flex wrap untuk keamanan */
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .total-result .label {
+            color: #b0ffe0;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .total-result .value {
+            /* Ukuran lebih kecil agar muat di kotak */
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #f5ffff;
+            text-shadow: 0 0 30px #00ffc8, 4px 5px 0 #014d3a;
+            word-break: break-word;
+            text-align: right;
+            max-width: 100%;
+            line-height: 1.3;
+        }
+
+        /* Tablet / HP penyesuaian */
+        @media (max-width: 500px) {
+            .total-result .value {
+                font-size: 1.4rem;
+            }
+            .total-result {
+                padding: 15px 20px;
+            }
+        }
+
+        .btn-reset {
+            background: #08262b;
+            border: 1px solid #008f77;
+            border-radius: 60px;
+            padding: 15px;
+            color: #c0f9ec;
+            font-weight: 700;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 0 #015545, 0 8px 16px black;
+            cursor: pointer;
+            transition: 0.08s;
+            width: 100%;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+        }
+
+        .btn-reset:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #015545, 0 8px 16px black;
+        }
+
+        .btn-reset:hover {
+            background: #0e4045;
+            border-color: #40ffd0;
+            color: #ffffff;
+        }
+
+        .footer {
+            text-align: center;
+            color: #90c7ba;
+            padding-top: 20px;
+            font-size: 0.8rem;
+            border-top: 1px solid #008060;
+        }
+
+        .footer a {
+            color: #70ffd0;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            color: #c0fff0;
+            text-decoration: underline wavy #00d0a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⛽ PERTAMINA 3D ⛽</h1>
+        <div class="subtitle">HITAM • BIRU • HIJAU PREMIUM</div>
+
+        <!-- INFO DESIMAL (tanpa contoh angka) -->
+        <div class="info-desimal">
+            <span class="icon">⛽</span>
+            <span>
+                <strong>FORMAT DESIMAL:</strong> Gunakan koma (,) untuk desimal. Titik ribuan diabaikan.<br>
+                Contoh: 152,2  atau  1234567,89
+            </span>
+        </div>
+
+        <!-- SECTION 1: PENGURANGAN PERTAMA (angka contoh dihapus) -->
+        <div class="section">
+            <div class="section-header">
+                <span class="emoji">1️⃣</span>
+                <span class="title">METERAN TERJUAL</span>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>STAND AKHIR</label>
+                    <input type="text" id="kurang1_1" placeholder="cth: 1234567,89" value="">
+                </div>
+                <span class="operator">−</span>
+                <div class="input-group">
+                    <label>STAND AWAL</label>
+                    <input type="text" id="kurang1_2" placeholder="cth: 276,1" value="">
+                </div>
+            </div>
+            <button class="btn-hitung small" id="hitungKurang1">Hitung BBM Terjual</button>
+            <div class="result-card">
+                <div class="result-label">BBM TERJUAL</div>
+                <div class="result-value" id="hasilKurang1">0</div>
+                <div class="result-detail" id="detailKurang1">—</div>
+            </div>
+        </div>
+
+        <!-- LINK ARROW -->
+        <div class="link-arrow">
+            <span class="arrow">⤵️</span>
+            <span>DIPING ÷21</span>
+            <span class="arrow">⤵️</span>
+        </div>
+
+        <!-- SECTION 2: ÷21 (readonly mengikuti) -->
+        <div class="section">
+            <div class="section-header">
+                <span class="emoji">2️⃣</span>
+                <span class="title">HITUNG DIPING</span>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>BBM TERJUAL</label>
+                    <input type="text" id="angkaBagi" readonly placeholder="otomatis" value="">
+                </div>
+                <span class="operator">÷21</span>
+            </div>
+            <button class="btn-hitung small" id="hitungBagi">Hitung Diping</button>
+            <div class="result-card">
+                <div class="result-label">DIPING KELUAR</div>
+                <div class="result-value" id="hasilBagi">0</div>
+                <div class="result-detail" id="detailBagi">—</div>
+            </div>
+        </div>
+
+        <!-- LINK ARROW -->
+        <div class="link-arrow">
+            <span class="arrow">⤵️</span>
+            <span>DIPING AKHIR</span>
+            <span class="arrow">⤵️</span>
+        </div>
+
+        <!-- SECTION 3: PENGURANGAN KEDUA (angka awal kosong) -->
+        <div class="section">
+            <div class="section-header">
+                <span class="emoji">3️⃣</span>
+                <span class="title">DIPING AKHIR</span>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>DIPING AWAL</label>
+                    <input type="text" id="angkaTetap" placeholder="cth: 2000000" value="">
+                </div>
+                <span class="operator">−</span>
+                <div class="input-group">
+                    <label>PENGURANG</label>
+                    <input type="text" id="angkaPengurang" readonly value="">
+                </div>
+            </div>
+            <button class="btn-hitung small" id="hitungKurang2">Hitung Diping Akhir</button>
+            <div class="result-card">
+                <div class="result-label">HASIL DIPING AKHIR</div>
+                <div class="result-value" id="hasilKurang2">0</div>
+                <div class="result-detail" id="detailKurang2">—</div>
+            </div>
+        </div>
+
+        <!-- TOTAL RUPIAH 3D - dengan ukuran lebih kecil -->
+        <div class="total-section">
+            <div class="total-header">
+                <span class="emoji">💰</span>
+                <span class="title">TOTAL PENJUALAN (RP 12.500/L)</span>
+            </div>
+            <div class="total-content">
+                <div class="total-row">
+                    <span class="total-label">BBM TERJUAL:</span>
+                    <span class="total-value" id="totalAwal">0</span>
+                </div>
+                <div class="total-kali">
+                    <span>×</span>
+                    <span>Rp 12.500</span>
+                </div>
+                <div class="total-result">
+                    <span class="label">TOTAL:</span>
+                    <span class="value" id="totalAkhir">Rp 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUTTON RESET (untuk mengosongkan) -->
+        <button class="btn-reset" id="resetBtn">⟲ KOSONGKAN SEMUA</button>
+
+        <div class="footer">
+            <p>© 2026 <a href="https://staastore.biz.id/" target="_blank">STAA DEV</a> • PERTAMINA PREMIUM 3D</p>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi konversi string Indonesia ke number
+        function parseAngkaIndonesia(str) {
+            if (!str || str.trim() === '') return 0;
+            let cleaned = str.toString()
+                .replace(/\./g, '')      // hapus titik ribuan
+                .replace(',', '.');       // ganti koma desimal jadi titik
+            cleaned = cleaned.replace(/[^\d.-]/g, '');
+            let num = parseFloat(cleaned);
+            return isNaN(num) ? 0 : num;
+        }
+
+        // Format angka Indonesia (1.234,56)
+        function formatAngkaIndonesia(angka) {
+            if (angka === undefined || isNaN(angka)) return '0';
+            let num = typeof angka === 'string' ? parseFloat(angka) : angka;
+            let rounded = Math.round(num * 100) / 100;
+            let parts = rounded.toString().split('.');
+            let bilangan = parts[0];
+            let desimal = parts[1] || '00';
+            if (desimal.length === 1) desimal += '0';
+            bilangan = bilangan.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return bilangan + ',' + desimal;
+        }
+
+        function formatRupiah(angka) {
+            if (isNaN(angka)) return 'Rp 0';
+            let rounded = Math.round(angka);
+            return 'Rp ' + rounded.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        const HARGA = 12500;
+
+        // Elemen
+        const kurang1_1 = document.getElementById('kurang1_1');
+        const kurang1_2 = document.getElementById('kurang1_2');
+        const hasilKurang1 = document.getElementById('hasilKurang1');
+        const detailKurang1 = document.getElementById('detailKurang1');
+        const hitungKurang1 = document.getElementById('hitungKurang1');
+
+        const angkaBagi = document.getElementById('angkaBagi');
+        const hasilBagi = document.getElementById('hasilBagi');
+        const detailBagi = document.getElementById('detailBagi');
+        const hitungBagi = document.getElementById('hitungBagi');
+
+        const angkaTetap = document.getElementById('angkaTetap');
+        const angkaPengurang = document.getElementById('angkaPengurang');
+        const hasilKurang2 = document.getElementById('hasilKurang2');
+        const detailKurang2 = document.getElementById('detailKurang2');
+        const hitungKurang2 = document.getElementById('hitungKurang2');
+
+        const totalAwal = document.getElementById('totalAwal');
+        const totalAkhir = document.getElementById('totalAkhir');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function updateTotalRupiah() {
+            let nilaiAwal = parseAngkaIndonesia(hasilKurang1.textContent);
+            let total = nilaiAwal * HARGA;
+            totalAwal.textContent = hasilKurang1.textContent;
+            totalAkhir.textContent = formatRupiah(total);
+        }
+
+        function hitungPengurangan1(updateLanjutan = true) {
+            let a = parseAngkaIndonesia(kurang1_1.value);
+            let b = parseAngkaIndonesia(kurang1_2.value);
+            let hasil = a - b;
+
+            let aFmt = formatAngkaIndonesia(a);
+            let bFmt = formatAngkaIndonesia(b);
+            let hasilFmt = formatAngkaIndonesia(hasil);
+
+            hasilKurang1.textContent = hasilFmt;
+            detailKurang1.textContent = (a || b) ? `${aFmt} - ${bFmt} = ${hasilFmt}` : '—';
+
+            angkaBagi.value = hasilFmt;
+
+            if (updateLanjutan) hitungPembagian(true);
+            updateTotalRupiah();
+        }
+
+        function hitungPembagian(updateLanjutan = true) {
+            let nilai = parseAngkaIndonesia(angkaBagi.value);
+            let hasilBagiN = nilai / 21;
+            let fmtNilai = formatAngkaIndonesia(nilai);
+            let fmtHasil = formatAngkaIndonesia(hasilBagiN);
+
+            hasilBagi.textContent = fmtHasil;
+            detailBagi.textContent = (nilai !== 0) ? `${fmtNilai} ÷ 21 = ${fmtHasil}` : '—';
+
+            angkaPengurang.value = fmtHasil;
+
+            if (updateLanjutan) hitungPengurangan2();
+        }
+
+        function hitungPengurangan2() {
+            let tetap = parseAngkaIndonesia(angkaTetap.value);
+            let pengurang = parseAngkaIndonesia(angkaPengurang.value);
+            let hasil = tetap - pengurang;
+
+            let tetapFmt = formatAngkaIndonesia(tetap);
+            let pengurangFmt = formatAngkaIndonesia(pengurang);
+            let hasilFmt = formatAngkaIndonesia(hasil);
+
+            hasilKurang2.textContent = hasilFmt;
+            detailKurang2.textContent = (tetap || pengurang) ? `${tetapFmt} - ${pengurangFmt} = ${hasilFmt}` : '—';
+        }
+
+        // Event listeners
+        hitungKurang1.addEventListener('click', () => hitungPengurangan1(true));
+        hitungBagi.addEventListener('click', () => hitungPembagian(true));
+        hitungKurang2.addEventListener('click', hitungPengurangan2);
+
+        // Enter key
+        kurang1_1.addEventListener('keypress', (e) => { if (e.key === 'Enter') hitungPengurangan1(true); });
+        kurang1_2.addEventListener('keypress', (e) => { if (e.key === 'Enter') hitungPengurangan1(true); });
+        angkaTetap.addEventListener('keypress', (e) => { if (e.key === 'Enter') hitungPengurangan2(); });
+
+        // Reset semua kolom menjadi kosong
+        resetBtn.addEventListener('click', () => {
+            kurang1_1.value = '';
+            kurang1_2.value = '';
+            angkaTetap.value = '';
+            // kosongkan juga hasil
+            hasilKurang1.textContent = '0';
+            detailKurang1.textContent = '—';
+            angkaBagi.value = '';
+            hasilBagi.textContent = '0';
+            detailBagi.textContent = '—';
+            angkaPengurang.value = '';
+            hasilKurang2.textContent = '0';
+            detailKurang2.textContent = '—';
+            totalAwal.textContent = '0';
+            totalAkhir.textContent = 'Rp 0';
+        });
+
+        // inisialisasi kosong (tanpa contoh)
+        // biarkan semua kosong
+    </script>
+</body>
+</html>
