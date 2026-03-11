@@ -598,8 +598,14 @@
         <p style="margin-top: 20px;"><i>Terima kasih dukungannya 🙏</i></p>
       </div>
     </div>
+<!-- TOMBOL REFRESH PAGE (di atas footer) -->
+<div style="display: flex; justify-content: center; margin: 20px 0 10px;">
+  <button onclick="refreshPage()" style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: inherit; padding: 10px 24px; border-radius: 40px; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s;">
+    <i class="fas fa-sync-alt"></i> Refresh Halaman
+  </button>
+</div>
 
-    <footer>© 2026 STAA Developer · all in one column</footer>
+<footer>© 2026 STAA Developer · Tiktok</footer>
   </div>
   <!-- end main-card -->
 
@@ -785,6 +791,12 @@
       navigator.clipboard.writeText(text);
       alert("Nomor donasi disalin!");
     }
+    // ========== REFRESH PAGE ==========
+function refreshPage() {
+  if (confirm("Refresh halaman? Semua data akan direset.")) {
+    location.reload();
+  }
+}
   </script>
 </body>
 </html>
