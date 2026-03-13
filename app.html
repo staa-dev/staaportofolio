@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StaaApp - Layanan Digital</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4158D0 0%, #C850C0 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        /* Container utama */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header sederhana */
+        .header {
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header h1 i {
+            margin-right: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Search bar sederhana */
+        .search-section {
+            padding: 30px 30px 0;
+        }
+
+        .search-box {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            border-radius: 60px;
+            overflow: hidden;
+            border: 2px solid #eef2f6;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            border-color: #C850C0;
+            box-shadow: 0 5px 20px rgba(200,80,192,0.2);
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            background: transparent;
+        }
+
+        .search-box button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background: linear-gradient(135deg, #C850C0, #4158D0);
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 30px;
+        }
+
+        /* Title section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 2em;
+            color: #1e293b;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4158D0, #C850C0);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        /* Grid layanan - hanya ini yang utama */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        /* Card layanan */
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid #eef2f6;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 45px rgba(65, 88, 208, 0.2);
+            border-color: transparent;
+        }
+
+        .service-card:hover::before {
+            transform: translateY(0);
+        }
+
+        /* Icon 3D */
+        .service-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            background: linear-gradient(145deg, #f8fafc, #eef2f6);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 15px 25px -8px rgba(0,0,0,0.2),
+                0 0 0 2px rgba(255,255,255,0.8) inset,
+                -5px -5px 10px rgba(255,255,255,0.8),
+                5px 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Warna berbeda untuk setiap icon */
+        .service-card:nth-child(1) .service-icon { 
+            background: linear-gradient(145deg, #FFE5B4, #FFB6C1); 
+            color: #FF1493; 
+        }
+        .service-card:nth-child(2) .service-icon { 
+            background: linear-gradient(145deg, #B4E4FF, #A0D6FF); 
+            color: #0066CC; 
+        }
+        .service-card:nth-child(3) .service-icon { 
+            background: linear-gradient(145deg, #D8BFD8, #E6B8E6); 
+            color: #800080; 
+        }
+        .service-card:nth-child(4) .service-icon { 
+            background: linear-gradient(145deg, #C5F0C5, #A8E6A8); 
+            color: #2E7D32; 
+        }
+        .service-card:nth-child(5) .service-icon { 
+            background: linear-gradient(145deg, #FFD8B0, #FFC107); 
+            color: #FF8C00; 
+        }
+        .service-card:nth-child(6) .service-icon { 
+            background: linear-gradient(145deg, #FFB5B5, #FF8A8A); 
+            color: #C41E3A; 
+        }
+        .service-card:nth-child(7) .service-icon { 
+            background: linear-gradient(145deg, #B0E0E6, #87CEEB); 
+            color: #1E90FF; 
+        }
+        .service-card:nth-child(8) .service-icon { 
+            background: linear-gradient(145deg, #E0B0FF, #C0A0FF); 
+            color: #4B0082; 
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .service-desc {
+            font-size: 0.9em;
+            color: #64748b;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.8em;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(200,80,192,0.3);
+        }
+
+        /* Footer sederhana */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #94a3b8;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .modal-message {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .modal-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #4158D0, #C850C0);
+            color: white;
+            text-decoration: none;
+            border-radius: 60px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(200,80,192,0.3);
+        }
+
+        .modal-close {
+            padding: 12px 35px;
+            background: #eef2f6;
+            border: none;
+            border-radius: 60px;
+            font-size: 1em;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 5px solid #4158D0;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success { border-left-color: #10b981; }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.info { border-left-color: #3b82f6; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            
+            .service-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 32px;
+            }
+            
+            .service-name {
+                font-size: 1.1em;
+            }
+            
+            .service-desc {
+                font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px 10px;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 30px;
+            }
+            
+            .search-box button {
+                width: 100%;
+            }
+        }
+
+        /* Animasi float */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header sederhana -->
+        <div class="header">
+            <h1>
+                <i class="fa-solid fa-cubes"></i> 
+                StaaApp
+            </h1>
+            <p>Layanan Digital Lengkap & Mudah</p>
+        </div>
+
+        <!-- Search bar (opsional, bisa dihapus jika tidak perlu) -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" placeholder="Cari layanan..." id="searchInput">
+                <button onclick="searchService()"><i class="fa-solid fa-search"></i> Cari</button>
+            </div>
+        </div>
+
+        <!-- Main content - HANYA KOLOM LAYANAN -->
+        <div class="main-content">
+            <div class="section-title">
+                <h2>Layanan Kami</h2>
+                <p>Pilih layanan yang Anda butuhkan</p>
+            </div>
+
+            <!-- Grid layanan - ini yang utama -->
+            <div class="services-grid">
+                <!-- STORE -->
+                <a href="https://staastore.biz.id/" class="service-card" onclick="handleServiceClick(event, 'store')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div class="service-name">STAA STORE</div>
+                    <div class="service-desc">Belanja produk digitalmu</div>
+                    <span class="service-badge">TOP UP</span>
+                </a>
+
+                <!-- AI -->
+                <a href="ai.html" class="service-card" onclick="handleServiceClick(event, 'ai')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="service-name">AI ASSISTANT</div>
+                    <div class="service-desc">Kecerdasan buatan untuk membantu</div>
+                    <span class="service-badge">Soon</span>
+                </a>
+
+                <!-- TikTok Downloader -->
+                <a href="tikdown.html" class="service-card" onclick="handleServiceClick(event, 'tiktok')">
+                    <div class="service-icon float">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <div class="service-name">TIKTOK</div>
+                    <div class="service-desc">Download video tanpa watermark</div>
+                    <span class="service-badge">Free</span>
+                </a>
+
+                <!-- Temp Mail -->
+                <a href="tempmailv2.html" class="service-card" onclick="handleServiceClick(event, 'tempmail')">
+                    <div class="service-icon float">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <div class="service-name">TEMP MAIL</div>
+                    <div class="service-desc">Email sementara & aman</div>
+                    <span class="service-badge">Instant</span>
+                </a>
+
+                <!-- QR Generator -->
+                <a href="qrcode.html" class="service-card" onclick="handleServiceClick(event, 'qr')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <div class="service-name">QR GENERATOR</div>
+                    <div class="service-desc">Buat QR code kustom</div>
+                    <span class="service-badge">Free</span>
+                </a>
+
+                <!-- Games -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div class="service-name">GAMES</div>
+                    <div class="service-desc">Main game seru</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Music -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div class="service-name">MUSIC</div>
+                    <div class="service-desc">Streaming musik</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Video -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <div class="service-name">VIDEO</div>
+                    <div class="service-desc">Nonton video</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Camera -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <div class="service-name">CAMERA</div>
+                    <div class="service-desc">Edit foto & video</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Weather -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-cloud-sun"></i>
+                    </div>
+                    <div class="service-name">CUACA</div>
+                    <div class="service-desc">Info cuaca realtime</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Converter -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </div>
+                    <div class="service-name">CONVERTER</div>
+                    <div class="service-desc">Konversi unit & mata uang</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+
+                <!-- Notes -->
+                <div class="service-card" onclick="showToast('Fitur dalam pengembangan', 'info')">
+                    <div class="service-icon float">
+                        <i class="fa-solid fa-note-sticky"></i>
+                    </div>
+                    <div class="service-name">NOTES</div>
+                    <div class="service-desc">Catatan digital</div>
+                    <span class="service-badge">Soon</span>
+                </div>
+            </div>
+
+            <!-- Keterangan sederhana -->
+            <p style="text-align: center; color: #64748b; margin: 20px 0; font-size: 0.9em;">
+                <i class="fa-regular fa-circle-check" style="color: #10b981;"></i> 
+                Klik layanan untuk menggunakannya
+            </p>
+        </div>
+
+        <!-- Footer sederhana -->
+        <div class="footer">
+            <p>© 2024 StaaApp - Semua layanan tersedia 24/7</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <h3 class="modal-title" id="modalTitle">Store</h3>
+            <p class="modal-message" id="modalMessage">Anda akan diarahkan ke halaman Store</p>
+            <a href="#" class="modal-link" id="modalLink">Lanjutkan</a>
+            <button class="modal-close" onclick="closeModal()">Batal</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMessage">Notifikasi</span>
+    </div>
+
+    <script>
+        // Data services
+        const services = {
+            store: {
+                name: 'STORE',
+                icon: 'fa-solid fa-store',
+                desc: 'Belanja produk digital & fisik',
+                url: 'https://staastore.biz.id'
+            },
+            tiktok: {
+                name: 'TIKTOK DOWNLOADER',
+                icon: 'fa-brands fa-tiktok',
+                desc: 'Download video TikTok tanpa watermark',
+                url: 'tiktok-downloader.html'
+            },
+            tempmail: {
+                name: 'TEMP MAIL',
+                icon: 'fa-regular fa-envelope',
+                desc: 'Email sementara untuk privasi',
+                url: 'temp-mail.html'
+            },
+            qr: {
+                name: 'QR GENERATOR',
+                icon: 'fa-solid fa-qrcode',
+                desc: 'Buat QR code kustom',
+                url: 'qr-generator.html'
+            }
+        };
+
+        // Handle service click
+        function handleServiceClick(event, serviceKey) {
+            event.preventDefault();
+            const service = services[serviceKey];
+            
+            if (!service) return;
+
+            const modal = document.getElementById('serviceModal');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalLink = document.getElementById('modalLink');
+            
+            modalIcon.innerHTML = `<i class="${service.icon}"></i>`;
+            modalTitle.textContent = service.name;
+            modalMessage.textContent = `Anda akan diarahkan ke halaman ${service.name}`;
+            modalLink.href = service.url;
+            
+            modal.classList.add('active');
+            showToast(`Membuka ${service.name}...`, 'info');
+        }
+
+        // Search function (opsional)
+        function searchService() {
+            const input = document.getElementById('searchInput');
+            const query = input.value.trim().toLowerCase();
+            
+            if (query === '') {
+                showToast('Masukkan kata kunci pencarian!', 'error');
+                return;
+            }
+            
+            let found = null;
+            for (let [key, service] of Object.entries(services)) {
+                if (key.includes(query) || 
+                    service.name.toLowerCase().includes(query) || 
+                    service.desc.toLowerCase().includes(query)) {
+                    found = service;
+                    break;
+                }
+            }
+            
+            if (found) {
+                showToast(`Menemukan: ${found.name}`, 'success');
+                setTimeout(() => {
+                    window.location.href = found.url;
+                }, 1500);
+            } else {
+                showToast('Layanan tidak ditemukan!', 'error');
+            }
+            
+            input.value = '';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('serviceModal').classList.remove('active');
+        }
+
+        // Show toast
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            
+            if (type === 'success') {
+                toastIcon.className = 'fa-solid fa-circle-check';
+                toast.className = 'toast success';
+            } else if (type === 'error') {
+                toastIcon.className = 'fa-solid fa-circle-exclamation';
+                toast.className = 'toast error';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-info';
+                toast.className = 'toast info';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Enter key on search
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchService();
+                }
+            });
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('serviceModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Welcome message
+        window.onload = function() {
+            setTimeout(() => {
+                showToast('Selamat datang di SuperApp!', 'success');
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

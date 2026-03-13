@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>STAA MAIL</title>
+<!-- Font Awesome 6 (Free) untuk icon 3D -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 
 body{
-font-family:Segoe UI;
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 background:#0f172a;
 color:white;
 margin:0;
@@ -19,12 +21,28 @@ background:#020617;
 padding:18px 30px;
 display:flex;
 align-items:center;
+justify-content:space-between;
 border-bottom:1px solid #1e293b;
 }
 
 .logo{
 font-size:22px;
 font-weight:bold;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo i{
+font-size:28px;
+color:#3b82f6;
+filter:drop-shadow(0 5px 10px rgba(59,130,246,0.5));
+}
+
+.header-actions{
+display:flex;
+align-items:center;
+gap:15px;
 }
 
 .container{
@@ -52,6 +70,12 @@ input{
 padding:10px;
 border-radius:8px;
 border:none;
+background:#1e293b;
+color:white;
+}
+
+input::placeholder{
+color:#64748b;
 }
 
 .domain{
@@ -65,6 +89,21 @@ border-radius:8px;
 cursor:pointer;
 background:#3b82f6;
 color:white;
+font-weight:500;
+display:inline-flex;
+align-items:center;
+gap:6px;
+transition:all 0.3s ease;
+}
+
+button i{
+font-size:14px;
+}
+
+button:hover{
+background:#2563eb;
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(59,130,246,0.4);
 }
 
 .email-box{
@@ -164,14 +203,296 @@ margin-top:6px;
 font-size:13px;
 color:#94a3b8;
 }
+
+/* Theme Toggle - Diperbaiki agar terlihat di light mode */
 .theme-toggle{
-background:none;
+background:linear-gradient(145deg, #1e293b, #0f172a);
 border:none;
-font-size:20px;
+width:40px;
+height:40px;
+border-radius:12px;
 cursor:pointer;
-color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:all 0.3s ease;
+box-shadow: 
+    0 10px 15px -5px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(59,130,246,0.3) inset,
+    -3px -3px 8px rgba(255,255,255,0.05),
+    3px 3px 10px rgba(0,0,0,0.5);
+position:relative;
+overflow:hidden;
 }
 
+.theme-toggle::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:50%;
+background:linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+border-radius:12px 12px 0 0;
+}
+
+.theme-toggle i{
+font-size:20px;
+color:#3b82f6;
+filter:drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+transition:all 0.3s ease;
+}
+
+.theme-toggle:hover{
+transform:translateY(-3px);
+box-shadow: 
+    0 15px 20px -5px rgba(59,130,246,0.3),
+    0 0 0 1px #3b82f6 inset,
+    -3px -3px 8px rgba(255,255,255,0.1),
+    3px 3px 15px rgba(0,0,0,0.6);
+}
+
+.theme-toggle:hover i{
+color:#60a5fa;
+transform:rotate(15deg);
+}
+
+/* Light theme - Theme toggle khusus untuk light mode */
+body.light .theme-toggle{
+background:linear-gradient(145deg, #ffffff, #e2e8f0);
+box-shadow: 
+    0 10px 15px -5px rgba(0,0,0,0.1),
+    0 0 0 1px #3b82f6 inset,
+    -3px -3px 8px #ffffff,
+    3px 3px 10px rgba(0,0,0,0.1);
+}
+
+body.light .theme-toggle i{
+color:#2563eb;
+filter:drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+body.light .theme-toggle:hover{
+box-shadow: 
+    0 15px 20px -5px rgba(59,130,246,0.3),
+    0 0 0 1px #2563eb inset,
+    -3px -3px 8px #ffffff,
+    3px 3px 15px rgba(0,0,0,0.15);
+}
+
+body.light .theme-toggle:hover i{
+color:#1d4ed8;
+}
+
+/* Tombol refresh di navbar */
+.refresh-nav-btn{
+background:linear-gradient(145deg, #1e293b, #0f172a);
+border:none;
+width:40px;
+height:40px;
+border-radius:12px;
+cursor:pointer;
+color:#3b82f6;
+font-size:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:all 0.3s ease;
+box-shadow: 
+    0 10px 15px -5px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(59,130,246,0.3) inset,
+    -3px -3px 8px rgba(255,255,255,0.05),
+    3px 3px 10px rgba(0,0,0,0.5);
+position:relative;
+overflow:hidden;
+}
+
+.refresh-nav-btn::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:50%;
+background:linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+border-radius:12px 12px 0 0;
+}
+
+.refresh-nav-btn i{
+filter:drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+transition:all 0.5s ease;
+}
+
+.refresh-nav-btn:hover{
+transform:translateY(-3px);
+box-shadow: 
+    0 15px 20px -5px rgba(59,130,246,0.3),
+    0 0 0 1px #3b82f6 inset,
+    -3px -3px 8px rgba(255,255,255,0.1),
+    3px 3px 15px rgba(0,0,0,0.6);
+}
+
+.refresh-nav-btn:hover i{
+transform:rotate(180deg);
+color:#60a5fa;
+}
+
+/* Light theme untuk refresh button */
+body.light .refresh-nav-btn{
+background:linear-gradient(145deg, #ffffff, #e2e8f0);
+box-shadow: 
+    0 10px 15px -5px rgba(0,0,0,0.1),
+    0 0 0 1px #3b82f6 inset,
+    -3px -3px 8px #ffffff,
+    3px 3px 10px rgba(0,0,0,0.1);
+}
+
+body.light .refresh-nav-btn i{
+color:#2563eb;
+filter:drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+body.light .refresh-nav-btn:hover i{
+color:#1d4ed8;
+}
+
+/* Tombol UPDATE APLIKASI */
+.update-btn{
+background:linear-gradient(145deg, #1e293b, #0f172a);
+border:none;
+padding:15px 40px;
+border-radius:60px;
+cursor:pointer;
+color:white;
+font-size:18px;
+font-weight:700;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+margin:20px 0;
+box-shadow: 
+    0 15px 25px -8px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(59,130,246,0.5) inset,
+    -5px -5px 10px rgba(255,255,255,0.05),
+    5px 5px 20px rgba(0,0,0,0.6);
+transition:all 0.4s ease;
+position:relative;
+overflow:hidden;
+border:1px solid rgba(59,130,246,0.3);
+}
+
+.update-btn::before{
+content:'';
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:60%;
+background:linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+border-radius:60px 60px 0 0;
+}
+
+.update-btn i{
+font-size:24px;
+color:#3b82f6;
+filter:drop-shadow(0 3px 5px rgba(0,0,0,0.5));
+transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.update-btn span{
+background:linear-gradient(135deg, #fff, #94a3b8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 2px 5px rgba(0,0,0,0.3);
+}
+
+.update-btn:hover{
+transform:translateY(-5px) scale(1.02);
+box-shadow: 
+    0 20px 30px -8px #3b82f6,
+    0 0 0 1px #3b82f6 inset,
+    -5px -5px 10px rgba(255,255,255,0.1),
+    5px 5px 25px rgba(0,0,0,0.7);
+border-color:#3b82f6;
+}
+
+.update-btn:hover i{
+transform:rotate(360deg) scale(1.2);
+color:#60a5fa;
+}
+
+.update-btn:hover span{
+background:linear-gradient(135deg, #fff, #3b82f6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* Light theme untuk update button */
+body.light .update-btn{
+background:linear-gradient(145deg, #ffffff, #f1f5f9);
+box-shadow: 
+    0 15px 25px -8px rgba(59,130,246,0.3),
+    0 0 0 1px #3b82f6 inset,
+    -5px -5px 10px #ffffff,
+    5px 5px 20px rgba(0,0,0,0.1);
+}
+
+body.light .update-btn i{
+color:#2563eb;
+filter:drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+}
+
+body.light .update-btn span{
+background:linear-gradient(135deg, #1e293b, #2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 2px 5px rgba(255,255,255,0.3);
+}
+
+body.light .update-btn:hover{
+box-shadow: 
+    0 20px 30px -8px #3b82f6,
+    0 0 0 1px #2563eb inset,
+    -5px -5px 10px #ffffff,
+    5px 5px 25px rgba(0,0,0,0.15);
+}
+
+.update-container{
+text-align:center;
+margin:30px 0 20px;
+}
+
+.update-container p{
+color:#94a3b8;
+font-size:13px;
+margin-top:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:5px;
+}
+
+.update-container p i{
+color:#3b82f6;
+font-size:14px;
+}
+
+body.light .update-container p{
+color:#475569;
+}
+
+/* Animasi loading */
+@keyframes spin{
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
+}
+
+.loading{
+animation:spin 1s linear infinite;
+}
+
+/* Light theme umum */
 body.light{
 background:#f1f5f9;
 color:#0f172a;
@@ -184,17 +505,53 @@ border-bottom:1px solid #e2e8f0;
 
 body.light .generator,
 body.light table,
-body.light .viewer{
+body.light .viewer,
+body.light .info-card{
 background:white;
+box-shadow:0 0 20px rgba(0,0,0,0.05);
 }
 
 body.light .email-box{
 background:#f8fafc;
+border-color:#e2e8f0;
+color:#334155;
 }
 
 body.light tr:hover{
 background:#f1f5f9;
 }
+
+body.light input{
+background:#f1f5f9;
+color:#0f172a;
+border:1px solid #e2e8f0;
+}
+
+body.light th{
+color:#475569;
+}
+
+body.light td{
+color:#334155;
+}
+
+body.light .domain{
+color:#64748b;
+}
+
+body.light .info-card p{
+color:#475569;
+}
+
+body.light .footer{
+background:white;
+border-top:1px solid #e2e8f0;
+}
+
+body.light .footer-content p{
+color:#64748b;
+}
+
 .otp-box{
 margin-top:15px;
 background:#020617;
@@ -221,24 +578,39 @@ cursor:pointer;
 color:white;
 font-size:13px;
 }
+
+body.light .otp-box{
+background:#f8fafc;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">📧 STAA MAIL</div>
+<div class="logo">
+<i class="fa-solid fa-envelope-open-text"></i> 
+STAA MAIL
+</div>
 
-<button id="themeToggle" class="theme-toggle">
-🌙
+<div class="header-actions">
+<!-- Tombol Refresh di navbar -->
+<button class="refresh-nav-btn" onclick="refreshPage()" title="Refresh Halaman">
+<i class="fa-solid fa-rotate-right"></i>
 </button>
+
+<!-- Tombol Theme Toggle - Sudah diperbaiki agar terlihat di light mode -->
+<button id="themeToggle" class="theme-toggle">
+<i class="fa-regular fa-moon"></i>
+</button>
+</div>
 </header>
 
 <div class="container">
 
 <div class="generator">
 
-<h3>Temporary Email</h3>
+<h3><i class="fa-regular fa-envelope" style="margin-right:8px;"></i> Temporary Email</h3>
 
 <div class="row">
 
@@ -246,14 +618,14 @@ font-size:13px;
 
 <span class="domain">@dollicons.com</span>
 
-<button onclick="createEmail()">Generate</button>
-<button onclick="copyEmail()">Copy</button>
-<button onclick="loadInbox()">Refresh</button>
+<button onclick="createEmail()"><i class="fa-solid fa-plus-circle"></i> Generate</button>
+<button onclick="copyEmail()"><i class="fa-regular fa-copy"></i> Copy</button>
+<button onclick="loadInbox()"><i class="fa-solid fa-sync-alt"></i> Refresh</button>
 
 </div>
 
 <div class="email-box" id="emailBox">
-Belum ada email dibuat
+<i class="fa-regular fa-clock" style="margin-right:5px;"></i> Belum ada email dibuat
 </div>
 
 </div>
@@ -262,9 +634,9 @@ Belum ada email dibuat
 
 <thead>
 <tr>
-<th class="from">FROM</th>
-<th>SUBJECT</th>
-<th class="date">DATE</th>
+<th class="from"><i class="fa-regular fa-user" style="margin-right:5px;"></i> FROM</th>
+<th><i class="fa-regular fa-envelope" style="margin-right:5px;"></i> SUBJECT</th>
+<th class="date"><i class="fa-regular fa-calendar" style="margin-right:5px;"></i> DATE</th>
 </tr>
 </thead>
 
@@ -275,22 +647,37 @@ Belum ada email dibuat
 
 <div class="viewer" id="viewer">
 
-<h3>Email Viewer</h3>
-<p>Klik email untuk membaca pesan</p>
+<h3><i class="fa-regular fa-eye" style="margin-right:8px;"></i> Email Viewer</h3>
+<p><i class="fa-regular fa-message" style="margin-right:5px;"></i> Klik email untuk membaca pesan</p>
 
 </div>
+
+<!-- Tombol UPDATE APLIKASI (refresh) -->
+<div class="update-container">
+<button class="update-btn" onclick="refreshPage()">
+<i class="fa-solid fa-rotate-right" id="updateIcon"></i>
+<span>UPDATE APLIKASI</span>
+</button>
+<p>
+<i class="fa-regular fa-circle-check" style="color:#10b981;"></i>
+Klik untuk memuat ulang halaman
+</p>
+</div>
+
 <div class="info-container">
 
 <div class="info-card">
 
-<h3>📢 Informasi Penting</h3>
+<h3><i class="fa-regular fa-circle-info" style="margin-right:5px;"></i> Informasi Penting</h3>
 
 <p>
+<i class="fa-regular fa-keyboard" style="margin-right:5px;"></i>
 Jika kamu meminta kode OTP atau verifikasi menggunakan email sementara ini,
 silakan tekan tombol <b>Refresh</b> untuk memuat pesan terbaru.
 </p>
 
 <p>
+<i class="fa-regular fa-clock" style="margin-right:5px;"></i>
 Beberapa layanan membutuhkan waktu sekitar <b>5-10 detik</b> sebelum email masuk ke inbox.
 </p>
 
@@ -300,17 +687,19 @@ Beberapa layanan membutuhkan waktu sekitar <b>5-10 detik</b> sebelum email masuk
 </div>
 
 <script>
-
+// Theme Toggle - Dengan icon yang jelas di kedua mode
 const toggle=document.getElementById("themeToggle")
 
 function setTheme(mode){
 
 if(mode==="light"){
 document.body.classList.add("light")
-toggle.innerHTML="☀️"
+// Icon matahari untuk light mode (warna biru gelap)
+toggle.innerHTML='<i class="fa-regular fa-sun" style="color:#2563eb;"></i>'
 }else{
 document.body.classList.remove("light")
-toggle.innerHTML="🌙"
+// Icon bulan untuk dark mode (warna biru terang)
+toggle.innerHTML='<i class="fa-regular fa-moon" style="color:#3b82f6;"></i>'
 }
 
 localStorage.setItem("theme",mode)
@@ -373,7 +762,7 @@ return
 
 token=data.token
 
-document.getElementById("emailBox").innerText=email
+document.getElementById("emailBox").innerHTML=`<i class="fa-regular fa-envelope-open" style="margin-right:5px;"></i> ${email}`
 
 loadInbox()
 
@@ -417,11 +806,11 @@ html+=`
 
 <tr onclick="readMail('${mail.id}')">
 
-<td class="from">${mail.from.address}</td>
+<td class="from"><i class="fa-regular fa-circle-user" style="margin-right:5px; color:#3b82f6;"></i> ${mail.from.address}</td>
 
-<td>${mail.subject}</td>
+<td><i class="fa-regular fa-note-sticky" style="margin-right:5px; color:#94a3b8;"></i> ${mail.subject}</td>
 
-<td class="date">${new Date(mail.createdAt).toLocaleTimeString()}</td>
+<td class="date"><i class="fa-regular fa-clock" style="margin-right:5px; color:#94a3b8;"></i> ${new Date(mail.createdAt).toLocaleTimeString()}</td>
 
 </tr>
 
@@ -430,7 +819,7 @@ html+=`
 })
 
 document.getElementById("inbox").innerHTML=
-html || "<tr><td colspan=3>Belum ada email</td></tr>"
+html || "<tr><td colspan=3><i class='fa-regular fa-inbox' style='margin-right:5px;'></i> Belum ada email</td></tr>"
 
 }catch(e){
 
@@ -462,12 +851,12 @@ otpHTML=`
 
 <div class="otp-box">
 
-<div>Kode OTP Terdeteksi</div>
+<div><i class="fa-solid fa-key" style="margin-right:5px;"></i> Kode OTP Terdeteksi</div>
 
 <div class="otp-code">${otp}</div>
 
 <button class="copy-otp" onclick="copyOTP('${otp}')">
-Copy OTP
+<i class="fa-regular fa-copy"></i> Copy OTP
 </button>
 
 </div>
@@ -478,21 +867,22 @@ Copy OTP
 
 document.getElementById("viewer").innerHTML=`
 
-<h3>${data.subject}</h3>
+<h3><i class="fa-regular fa-envelope-open"></i> ${data.subject}</h3>
 
-<p><b>Dari:</b> ${data.from.address}</p>
+<p><i class="fa-regular fa-user"></i> <b>Dari:</b> ${data.from.address}</p>
 
 ${otpHTML}
 
-<hr>
+<hr style="border-color:#1e293b;">
 
-<p>${text}</p>
+<p style="white-space:pre-wrap;">${text}</p>
 
 `
 
 }
 
 setInterval(loadInbox,5000)
+
 function copyOTP(code){
 
 navigator.clipboard.writeText(code)
@@ -500,14 +890,62 @@ navigator.clipboard.writeText(code)
 alert("OTP berhasil disalin")
 
 }
+
+// FUNGSI REFRESH PAGE
+function refreshPage(){
+// Ambil kedua tombol
+const refreshNavBtn = document.querySelector('.refresh-nav-btn i');
+const updateBtn = document.getElementById('updateIcon');
+const updateBtnText = document.querySelector('.update-btn span');
+
+// Ubah icon menjadi loading
+if(refreshNavBtn) {
+refreshNavBtn.className = 'fa-solid fa-spinner loading';
+}
+
+if(updateBtn) {
+updateBtn.className = 'fa-solid fa-spinner loading';
+updateBtnText.textContent = 'MEMUAT ULANG...';
+}
+
+// Nonaktifkan semua tombol refresh
+document.querySelectorAll('.refresh-nav-btn, .update-btn').forEach(btn => {
+btn.style.pointerEvents = 'none';
+btn.style.opacity = '0.8';
+});
+
+// Simulasi loading sebentar
+setTimeout(() => {
+location.reload();
+}, 800);
+}
+
+// Keyboard shortcut
+document.addEventListener('keydown', function(e) {
+if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+e.preventDefault();
+refreshPage();
+}
+});
+
+window.onload = function() {
+console.log('STAA MAIL v2.0 - Siap digunakan');
+};
 </script>
+
 <footer class="footer">
 
 <div class="footer-content">
 
-<h3>STAA DEVELOPER</h3>
+<h3><i class="fa-regular fa-copyright" style="margin-right:5px;"></i> STAA DEVELOPER</h3>
 
 <p>© 2026 All Rights Reserved</p>
+
+<!-- Tombol update kecil di footer -->
+<button class="update-btn" onclick="refreshPage()" style="margin-top:15px; padding:10px 25px; font-size:14px;">
+<i class="fa-solid fa-rotate-right" style="font-size:18px;"></i>
+<span>UPDATE</span>
+</button>
 
 </div>
 

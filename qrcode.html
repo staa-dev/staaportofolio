@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Genie - Buat QR Code Keren & Gratis</title>
+    <link rel="stylesheet" href="qrstyle.css">
+    <!-- Font Inter - font modern dan friendly -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk ikon yang lebih cantik -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Library QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<!-- Navbar sederhana -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- Kiri: Logo (bisa juga jadi link ke home) -->
+        <a href="home.html" class="logo-link">
+            <div class="logo">
+                <i class="fas fa-qrcode"></i>
+                <span>QR Genie</span>
+            </div>
+        </a>
+        
+        <!-- Tengah: Tombol Home sebagai LINK ke home.html -->
+        <a href="home.html" class="home-link" id="homeBtn">
+            <i class="fas fa-home"></i>
+            <span class="home-text">Home</span>
+        </a>
+        
+        <!-- Kanan: Tombol Aksi (tetap sebagai button) -->
+        <div class="nav-right">
+            <button id="refreshNavBtn" class="icon-btn" aria-label="Refresh halaman">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+    <div class="container">
+        <!-- Hero section dengan penjelasan singkat -->
+        <div class="hero">
+            <h1>Buat QR Code <span class="gradient-text">dalam hitungan detik</span></h1>
+            <p class="hero-subtitle">Gratis, tanpa ribet, dan privasi kamu terjaga. Langsung jalan di browser!</p>
+        </div>
+
+        <!-- Main content - dua kolom -->
+        <div class="main-content">
+            <!-- Kolom Kiri: Form Input -->
+            <div class="card form-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-pencil-alt"></i> 1. Isi Data</h2>
+                    <p>Pilih jenis dan masukkan informasi yang mau diubah jadi QR</p>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Pilihan Tipe QR dengan tombol visual -->
+                    <div class="type-selector">
+                        <button class="type-btn active" data-type="text">
+                            <i class="fas fa-link"></i>
+                            <span>Link / Teks</span>
+                        </button>
+                        <button class="type-btn" data-type="wifi">
+                            <i class="fas fa-wifi"></i>
+                            <span>WiFi</span>
+                        </button>
+                        <button class="type-btn" data-type="vcard">
+                            <i class="fas fa-address-card"></i>
+                            <span>Kontak</span>
+                        </button>
+                    </div>
+
+<!-- Panel Text (default aktif) - VALUE DAN PLACEHOLDER DIKOSONGKAN -->
+<div id="textPanel" class="input-panel active">
+    <div class="input-group">
+        <label for="qrText">
+            <i class="fas fa-globe"></i>
+            URL atau teks
+        </label>
+        <input type="text" id="qrText" placeholder="Contoh: https://website.com atau teks bebas" value="">
+        <small class="hint">💡 Bisa diisi URL website, link Instagram, atau pesan teks biasa</small>
+    </div>
+</div>
+
+                    <!-- Panel WiFi (awalnya tersembunyi) - VALUE DIKOSONGKAN -->
+                    <div id="wifiPanel" class="input-panel">
+                        <div class="input-group">
+                            <label for="wifiSsid">
+                                <i class="fas fa-network-wired"></i>
+                                Nama WiFi (SSID)
+                            </label>
+                            <input type="text" id="wifiSsid" placeholder="Contoh: Kosan WiFi" value="">
+                        </div>
+                        <div class="input-group">
+                            <label for="wifiPassword">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <input type="text" id="wifiPassword" placeholder="Password WiFi" value="">
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label for="wifiEncryption">Enkripsi</label>
+                                <select id="wifiEncryption">
+                                    <option value="WPA">WPA/WPA2 (Paling umum)</option>
+                                    <option value="WEP">WEP (Jarang dipakai)</option>
+                                    <option value="nopass">No Password (Tanpa sandi)</option>
+                                </select>
+                            </div>
+                            <div class="input-group half checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="wifiHidden">
+                                    <span class="checkbox-text">Hidden Network</span>
+                                </label>
+                            </div>
+                        </div>
+                        <small class="hint">📱 Scan nanti langsung connect, tanpa perlu ketik password</small>
+                    </div>
+
+                    <!-- Panel vCard/Kontak (awalnya tersembunyi) - VALUE DIKOSONGKAN -->
+                    <div id="vcardPanel" class="input-panel">
+                        <div class="input-group">
+                            <label for="vcardName">
+                                <i class="fas fa-user"></i>
+                                Nama Lengkap
+                            </label>
+                            <input type="text" id="vcardName" placeholder="Contoh: Budi Santoso" value="">
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label for="vcardPhone">
+                                    <i class="fas fa-phone"></i>
+                                    Telepon
+                                </label>
+                                <input type="tel" id="vcardPhone" placeholder="+628123456789" value="">
+                            </div>
+                            <div class="input-group half">
+                                <label for="vcardEmail">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </label>
+                                <input type="email" id="vcardEmail" placeholder="email@contoh.com" value="">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group half">
+                                <label for="vcardOrg">
+                                    <i class="fas fa-building"></i>
+                                    Perusahaan
+                                </label>
+                                <input type="text" id="vcardOrg" placeholder="Nama perusahaan" value="">
+                            </div>
+                            <div class="input-group half">
+                                <label for="vcardTitle">
+                                    <i class="fas fa-briefcase"></i>
+                                    Jabatan
+                                </label>
+                                <input type="text" id="vcardTitle" placeholder="Developer" value="">
+                            </div>
+                        </div>
+                        <small class="hint">👤 Scan langsung bisa simpan ke kontak HP</small>
+                    </div>
+
+                    <!-- Bagian Kustomisasi (collapsible) -->
+                    <details class="customization-details" open>
+                        <summary>
+                            <i class="fas fa-palette"></i>
+                            <span>2. Kustomisasi Tampilan</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </summary>
+                        <div class="details-content">
+                            <div class="input-row">
+                                <div class="input-group half">
+                                    <label for="qrColor">Warna QR</label>
+                                    <div class="color-input-wrapper">
+                                        <input type="color" id="qrColor" value="#000000">
+                                        <span class="color-value">#000000</span>
+                                    </div>
+                                </div>
+                                <div class="input-group half">
+                                    <label for="bgColor">Warna Background</label>
+                                    <div class="color-input-wrapper">
+                                        <input type="color" id="bgColor" value="#ffffff">
+                                        <span class="color-value">#ffffff</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="qrSize">
+                                    <i class="fas fa-arrows-alt"></i>
+                                    Ukuran: <span id="sizeValue">256</span>px
+                                </label>
+                                <input type="range" id="qrSize" min="128" max="512" step="16" value="256">
+                                <div class="range-labels">
+                                    <span>Kecil</span>
+                                    <span>Sedang</span>
+                                    <span>Besar</span>
+                                </div>
+                            </div>
+
+                            <div class="input-row">
+                                <div class="input-group half">
+                                    <label for="errorLevel">Error Correction</label>
+                                    <select id="errorLevel">
+                                        <option value="L">L - 7% (Kecil)</option>
+                                        <option value="M" selected>M - 15% (Standar)</option>
+                                        <option value="Q">Q - 25% (Tinggi)</option>
+                                        <option value="H">H - 30% (Maksimal)</option>
+                                    </select>
+                                    <small class="hint">Semakin tinggi, QR lebih tahan rusak</small>
+                                </div>
+                                <div class="input-group half checkbox-group" style="justify-content: flex-end;">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="addMargin" checked>
+                                        <span class="checkbox-text">Tambah margin putih</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <button id="generateBtn" class="btn-primary">
+                        <i class="fas fa-magic"></i>
+                        Generate QR Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Preview QR -->
+            <div class="card preview-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-eye"></i> 3. Preview & Download</h2>
+                    <p>Hasil QR code siap pakai</p>
+                </div>
+                
+                <div class="card-body">
+                    <div class="qr-preview-container" id="qrContainer">
+                        <div class="qr-preview-inner">
+                            <div id="qrcode" class="qr-code-display"></div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="downloadPngBtn" class="btn-outline">
+                            <i class="fas fa-download"></i>
+                            PNG
+                        </button>
+                        <button id="downloadSvgBtn" class="btn-outline">
+                            <i class="fas fa-download"></i>
+                            SVG
+                        </button>
+                        <button id="copyBtn" class="btn-outline">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+
+
+        <!-- Bagian sebelum footer dengan tombol refresh -->
+        <div class="refresh-section">
+            <button id="refreshBottomBtn" class="btn-outline refresh-btn">
+                <i class="fas fa-sync-alt"></i>
+                Refresh Halaman
+            </button>
+        </div>
+
+        <!-- Footer sederhana -->
+        <footer>
+            <p>@2026 STAA DEV | 100% gratis, tanpa iklan</p>
+        </footer>
+    </div>
+
+    <script src="qrscript.js"></script>
+</body>
+</html>
